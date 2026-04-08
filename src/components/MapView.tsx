@@ -121,7 +121,7 @@ export default function MapView() {
         <MapContainer
           center={[63, 16]}
           zoom={5}
-          className="h-full w-full"
+          style={{ height: "100%", width: "100%" }}
           zoomControl={false}
         >
           <TileLayer
