@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Popup, useMap } from "react-leaflet";
-import L from "leaflet";
+import { useEffect, useMemo, useRef, useState } from "react";
+import L, { type GeoJSON as LeafletGeoJSON, type LayerGroup, type Map as LeafletMap } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Papa from "papaparse";
 
@@ -19,10 +18,13 @@ interface PowerPlant {
   Longitude: number;
 }
 
+const DEFAULT_CENTER: [number, number] = [62.5, 15.5];
+const DEFAULT_ZOOM = 5;
+
 const statusColors: Record<string, string> = {
-  "Pågår": "hsl(205, 80%, 50%)",
-  "Ej påbörjad": "hsl(210, 10%, 60%)",
-  "Avslutad": "hsl(170, 60%, 40%)",
+  "Pågår": "hsl(205 80% 50%)",
+  "Ej påbörjad": "hsl(210 10% 60%)",
+  "Avslutad": "hsl(170 60% 40%)",
 };
 
 const sizeRadius: Record<string, number> = {
@@ -33,157 +35,222 @@ const sizeRadius: Record<string, number> = {
 };
 
 function getStatusColor(status: string) {
-  return statusColors[status] || "hsl(0, 0%, 50%)";
+  return statusColors[status] || "hsl(210 8% 55%)";
 }
 
 function getRadius(size: string) {
   return sizeRadius[size] || 4;
 }
 
-function FitBounds({ data }: { data: PowerPlant[] }) {
-  const map = useMap();
-  useEffect(() => {
-    if (data.length > 0) {
-      const bounds = L.latLngBounds(data.map(d => [d.Latitude, d.Longitude]));
-      map.fitBounds(bounds, { padding: [30, 30] });
-    }
-  }, [data, map]);
-  return null;
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function popupContent(plant: PowerPlant) {
+  return `
+    <div style="min-width:220px;font:13px/1.45 system-ui,sans-serif;color:#0f172a;">
+      <div style="font-weight:700;font-size:16px;margin-bottom:8px;">${escapeHtml(plant.Vattenkraftverk)}</div>
+      <div><strong>Prövningsgrupp:</strong> ${escapeHtml(plant.Prövningsgrupp || "-")}</div>
+      <div><strong>Status:</strong> ${escapeHtml(plant["Status samverkansprocess"] || "-")}</div>
+      <div><strong>Storlek:</strong> ${escapeHtml(plant["Vattenkraftverk storlek"] || "-")}</div>
+      <div><strong>Län:</strong> ${escapeHtml(plant.Län || "-")}</div>
+      <div><strong>Ansökan:</strong> ${escapeHtml(plant["Datum för inlämning ansökan"] || "-")}</div>
+      <div><strong>Beslut:</strong> ${escapeHtml(plant.Beslut || "-")}</div>
+    </div>
+  `;
 }
 
 export default function MapView() {
+  const mapElementRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const plantsLayerRef = useRef<LayerGroup | null>(null);
+  const polygonsLayerRef = useRef<LeafletGeoJSON | null>(null);
+
   const [plants, setPlants] = useState<PowerPlant[]>([]);
   const [geojson, setGeojson] = useState<any>(null);
   const [activeStatus, setActiveStatus] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    if (!mapElementRef.current || mapRef.current) return;
+
+    const map = L.map(mapElementRef.current, {
+      center: DEFAULT_CENTER,
+      zoom: DEFAULT_ZOOM,
+      zoomControl: true,
+    });
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    plantsLayerRef.current = L.layerGroup().addTo(map);
+    mapRef.current = map;
+
+    requestAnimationFrame(() => map.invalidateSize());
+
+    return () => {
+      polygonsLayerRef.current = null;
+      plantsLayerRef.current = null;
+      mapRef.current = null;
+      map.remove();
+    };
+  }, []);
+
+  useEffect(() => {
     fetch("/data/NAP_data_med_koordinater.csv")
-      .then(r => r.text())
-      .then(text => {
-        const result = Papa.parse<PowerPlant>(text, { header: true, skipEmptyLines: true });
-        const valid = result.data.filter(d => d.Latitude && d.Longitude && !isNaN(+d.Latitude));
-        setPlants(valid.map(d => ({ ...d, Latitude: +d.Latitude, Longitude: +d.Longitude })));
+      .then((response) => response.text())
+      .then((text) => {
+        const result = Papa.parse<PowerPlant>(text, {
+          header: true,
+          skipEmptyLines: true,
+          transformHeader: (header) => header.replace(/^\uFEFF/, "").trim(),
+        });
+
+        const valid = result.data
+          .map((row) => ({
+            ...row,
+            Latitude: Number(row.Latitude),
+            Longitude: Number(row.Longitude),
+          }))
+          .filter((row) => Number.isFinite(row.Latitude) && Number.isFinite(row.Longitude));
+
+        setPlants(valid);
       });
+
     fetch("/data/NAP_provningsgrupper_simplified.geojson")
-      .then(r => r.json())
+      .then((response) => response.json())
       .then(setGeojson);
   }, []);
 
-  const filtered = plants.filter(p => {
-    if (activeStatus && p["Status samverkansprocess"] !== activeStatus) return false;
-    if (searchTerm && !p.Vattenkraftverk.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-    return true;
-  });
+  const filteredPlants = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    return plants.filter((plant) => {
+      if (activeStatus && plant["Status samverkansprocess"] !== activeStatus) return false;
+      if (normalizedSearch && !plant.Vattenkraftverk?.toLowerCase().includes(normalizedSearch)) return false;
+      return true;
+    });
+  }, [activeStatus, plants, searchTerm]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    polygonsLayerRef.current?.remove();
+    polygonsLayerRef.current = null;
+
+    if (!geojson) return;
+
+    const layer = L.geoJSON(geojson, {
+      style: () => ({
+        color: "hsl(205 80% 35%)",
+        weight: 1.5,
+        fillColor: "hsl(205 80% 60%)",
+        fillOpacity: 0.08,
+      }),
+      onEachFeature: (feature, leafletLayer) => {
+        const name = feature.properties?.Prövnings;
+        if (name) {
+          leafletLayer.bindTooltip(String(name), { sticky: true, opacity: 0.95 });
+        }
+      },
+    }).addTo(map);
+
+    polygonsLayerRef.current = layer;
+  }, [geojson]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const plantsLayer = plantsLayerRef.current;
+    if (!map || !plantsLayer) return;
+
+    plantsLayer.clearLayers();
+
+    const bounds: [number, number][] = [];
+
+    filteredPlants.forEach((plant) => {
+      const center: [number, number] = [plant.Latitude, plant.Longitude];
+      bounds.push(center);
+
+      L.circleMarker(center, {
+        radius: getRadius(plant["Vattenkraftverk storlek"]),
+        color: getStatusColor(plant["Status samverkansprocess"]),
+        fillColor: getStatusColor(plant["Status samverkansprocess"]),
+        fillOpacity: 0.72,
+        weight: 1.5,
+      })
+        .bindPopup(popupContent(plant))
+        .addTo(plantsLayer);
+    });
+
+    requestAnimationFrame(() => {
+      map.invalidateSize();
+      if (bounds.length > 0) {
+        map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
+      } else {
+        map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+      }
+    });
+  }, [filteredPlants]);
 
   const statuses = ["Pågår", "Ej påbörjad", "Avslutad"];
 
   return (
-    <div className="flex flex-col h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
+    <div className="flex h-screen flex-col bg-background">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-card px-6 py-4">
         <div>
           <h1 className="text-xl font-bold text-foreground">NAP Vattenkraftverk</h1>
-          <p className="text-sm text-muted-foreground">{filtered.length} kraftverk visas</p>
+          <p className="text-sm text-muted-foreground">{filteredPlants.length} kraftverk visas</p>
         </div>
-        <div className="flex items-center gap-3 flex-wrap">
+
+        <div className="flex flex-wrap items-center gap-3">
           <input
             type="text"
             placeholder="Sök kraftverk..."
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            className="px-3 py-1.5 text-sm rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring w-48"
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className="w-48 rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
-          <div className="flex gap-1.5">
-            {statuses.map(s => (
+
+          <div className="flex flex-wrap gap-1.5">
+            {statuses.map((status) => (
               <button
-                key={s}
-                onClick={() => setActiveStatus(activeStatus === s ? null : s)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${
-                  activeStatus === s
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-card text-foreground border-border hover:bg-secondary"
+                key={status}
+                onClick={() => setActiveStatus(activeStatus === status ? null : status)}
+                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                  activeStatus === status
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-foreground hover:bg-secondary"
                 }`}
               >
                 <span
-                  className="inline-block w-2 h-2 rounded-full mr-1.5"
-                  style={{ backgroundColor: getStatusColor(s) }}
+                  className="mr-1.5 inline-block h-2 w-2 rounded-full"
+                  style={{ backgroundColor: getStatusColor(status) }}
                 />
-                {s}
+                {status}
               </button>
             ))}
           </div>
         </div>
       </header>
 
-      {/* Map */}
-      <div className="flex-1 relative">
-        <MapContainer
-          center={[63, 16]}
-          zoom={5}
-          style={{ height: "100%", width: "100%" }}
-          zoomControl={false}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          />
-          {geojson && (
-            <GeoJSON
-              data={geojson}
-              style={() => ({
-                color: "hsl(205, 80%, 35%)",
-                weight: 1.5,
-                fillColor: "hsl(205, 80%, 60%)",
-                fillOpacity: 0.08,
-              })}
-              onEachFeature={(feature, layer) => {
-                if (feature.properties?.Prövnings) {
-                  layer.bindTooltip(feature.properties.Prövnings, {
-                    sticky: true,
-                    className: "!bg-card !text-foreground !border-border !rounded-lg !text-xs !shadow-md",
-                  });
-                }
-              }}
-            />
-          )}
-          {filtered.map((p, i) => (
-            <CircleMarker
-              key={i}
-              center={[p.Latitude, p.Longitude]}
-              radius={getRadius(p["Vattenkraftverk storlek"])}
-              pathOptions={{
-                color: getStatusColor(p["Status samverkansprocess"]),
-                fillColor: getStatusColor(p["Status samverkansprocess"]),
-                fillOpacity: 0.7,
-                weight: 1.5,
-              }}
-            >
-              <Popup>
-                <div className="text-sm space-y-1 min-w-[200px]">
-                  <p className="font-bold text-base">{p.Vattenkraftverk}</p>
-                  <p><span className="text-muted-foreground">Prövningsgrupp:</span> {p.Prövningsgrupp}</p>
-                  <p><span className="text-muted-foreground">Status:</span> {p["Status samverkansprocess"]}</p>
-                  <p><span className="text-muted-foreground">Storlek:</span> {p["Vattenkraftverk storlek"]}</p>
-                  <p><span className="text-muted-foreground">Län:</span> {p.Län}</p>
-                  <p><span className="text-muted-foreground">Ansökan:</span> {p["Datum för inlämning ansökan"]}</p>
-                  <p><span className="text-muted-foreground">Beslut:</span> {p.Beslut}</p>
-                </div>
-              </Popup>
-            </CircleMarker>
-          ))}
-          <FitBounds data={filtered} />
-        </MapContainer>
+      <div className="relative min-h-0 flex-1">
+        <div ref={mapElementRef} className="h-full w-full" />
 
-        {/* Legend */}
-        <div className="absolute bottom-6 left-6 bg-card/95 backdrop-blur border border-border rounded-xl p-4 shadow-lg z-[1000]">
-          <p className="text-xs font-semibold text-foreground mb-2">Storlek</p>
+        <div className="absolute bottom-6 left-6 z-[1000] rounded-xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur">
+          <p className="mb-2 text-xs font-semibold text-foreground">Storlek</p>
           <div className="space-y-1.5">
-            {Object.entries(sizeRadius).map(([label, r]) => (
+            {Object.entries(sizeRadius).map(([label, radius]) => (
               <div key={label} className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span
                   className="inline-block rounded-full bg-primary"
-                  style={{ width: r * 2.5, height: r * 2.5 }}
+                  style={{ width: radius * 2.5, height: radius * 2.5 }}
                 />
                 {label}
               </div>
