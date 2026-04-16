@@ -1,0 +1,198 @@
+﻿Id_nummer,Prövnings,Deadline,Coordinates,Deadlinekategori,Totalt,Laga_kraft,Domstol_ej_laga,Domstolsprovning,Samverkan_pagar,Avslutad_ej_ansökan,Ej_paborjad,Län
+72_1,Marströmmen,2036-02-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),1,0,0,0,0,0,1,Kalmar län
+65_1,Nyköpingsån,2025-07-01 00:00:00,59.0941 16.7004,Passerad,14,0,0,3,0,11,0,Södermanlands län
+99_1,Genevadsån,2022-09-01 00:00:00,56.9753 12.8263,Passerad,6,0,0,0,0,6,0,Hallands län
+69_1,Vindån,2025-07-01 00:00:00,58.3689 15.6682,Passerad,1,0,0,0,0,1,0,Östergötlands län
+109_1,Bäveån,2025-07-01 00:00:00,58.318 12.9015,Passerad,7,0,0,6,1,0,0,Västra Götalands län
+108_B_4,Byälven 4,2038-09-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),8,0,0,0,0,0,8,Värmlands län
+53_9,Siljan med mindre biflöden,2027-02-01 00:00:00,60.9691 14.3691,Aktuell (2026-2030),13,0,0,0,13,0,0,Dalarnas län
+102_1,Suseån,2022-09-01 00:00:00,56.9753 12.8263,Passerad,5,0,4,1,0,0,0,Hallands län
+26_1,Sävarån,2026-02-01 00:00:00,64.8701 17.8336,Passerad,3,0,0,0,0,0,3,Västerbottens län
+108_B_2,Byälven 2,2037-09-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),3,0,0,0,0,0,3,Värmlands län
+108_B_3,Byälven 3,2038-02-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),8,0,0,0,0,0,8,Värmlands län
+70/71_1,Mellan Storån och Botorpsströmmen,2036-02-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),1,0,0,0,0,0,1,Kalmar län
+108_10,Borgvikeälven,2034-09-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),10,0,0,0,0,0,10,Värmlands län
+68/69_1,Mellan Söderköpingsån och Vindån,2025-07-01 00:00:00,58.3689 15.6682,Passerad,1,0,0,0,1,0,0,Östergötlands län
+81_1,Nättrabyån,2038-02-01 00:00:00,56.2937 15.2039,Framtida (efter 2030),2,0,0,0,0,0,2,Blekinge län
+108_F_4,Tidan biflöden till Stråken,2031-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),3,0,0,0,0,0,3,Västra Götalands län
+108_F_2,Tidan uppströms Östen,2031-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),24,0,0,0,0,0,24,Västra Götalands län
+1_1,Torneälven,2022-09-01 00:00:00,66.9506 20.1036,Passerad,3,1,0,2,0,0,0,Norrbottens län
+108_F_3,Ösan uppströms Östen,2031-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),2,0,0,0,0,0,2,Västra Götalands län
+33_1,Husån,2026-09-01 00:00:00,63.1125 17.2764,Aktuell (2026-2030),2,0,0,0,2,0,0,Västernorrlands län
+108_F_1,Tidan nedströms Östen,2031-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),4,0,0,0,0,0,4,Västra Götalands län
+53_6,Oreälven,2027-09-01 00:00:00,60.9691 14.3691,Aktuell (2026-2030),7,0,0,0,7,0,0,Dalarnas län
+80/81_1,Fylletorpsån,2037-02-01 00:00:00,56.2937 15.2039,Framtida (efter 2030),1,0,0,0,0,0,1,Blekinge län
+53_4,Österdalälven,2033-02-01 00:00:00,60.9691 14.3691,Framtida (efter 2030),11,0,0,0,0,0,11,Dalarnas län
+53_5,Lillälven uppströms Dalälven,2038-02-01 00:00:00,60.9691 14.3691,Framtida (efter 2030),29,0,0,0,0,0,29,Dalarnas län
+53_2,Dalälven mellan,2035-02-01 00:00:00,60.9691 14.3691,Framtida (efter 2030),37,0,0,0,0,0,37,Dalarnas län
+53_3,Västerdalälven,2030-09-01 00:00:00,60.9691 14.3691,Aktuell (2026-2030),22,0,0,0,0,0,22,Dalarnas län
+67_13,Huskvarnaån,2033-02-01 00:00:00,57.5138 14.4454,Framtida (efter 2030),8,0,0,0,0,0,8,Jönköpings län
+42_2,Gimån,2026-02-01 00:00:00,63.2643 14.331,Passerad,3,0,0,0,0,3,0,Jämtlands län
+53_1,Dalälven nedre,2026-02-01 00:00:00,61.464 16.3032,Passerad,6,0,0,0,6,0,0,Gävleborgs län
+42_1,Ljungan,2025-07-01 00:00:00,63.1125 17.2764,Passerad,33,4,0,0,0,29,0,Västernorrlands län
+37_1,Nätraån,2032-02-01 00:00:00,63.1125 17.2764,Framtida (efter 2030),5,0,0,0,0,0,5,Västernorrlands län
+62_1,Tyrisöån,2022-02-01 00:00:00,59.4942 18.1112,Passerad,1,0,1,0,0,0,0,Stockholms län
+92_1,Kävlingeån,2025-09-01 00:00:00,55.9628 13.6065,Passerad,2,0,0,0,0,0,2,Skåne län
+85_1,Mieån,2022-09-01 00:00:00,56.2937 15.2039,Passerad,7,0,3,4,0,0,0,Blekinge län
+27_1,Tavelån,2025-07-01 00:00:00,64.8701 17.8336,Passerad,1,0,0,0,0,1,0,Västerbottens län
+73_1,Virån,2035-09-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),1,0,0,0,0,0,1,Kalmar län
+66_1,Kilaån,2022-02-01 00:00:00,59.0941 16.7004,Passerad,4,1,0,0,0,3,0,Södermanlands län
+96_1,Rönne å,2022-02-01 00:00:00,55.9628 13.6065,Passerad,18,5,3,10,0,0,0,Skåne län
+106_1,Rolfsån,2022-09-01 00:00:00,58.318 12.9015,Passerad,13,2,3,7,0,1,0,Västra Götalands län
+103_1,Ätran samt Högvadsån,2026-09-01 00:00:00,56.9753 12.8263,Aktuell (2026-2030),13,0,0,0,0,13,0,Hallands län
+38_3,Fjällsjöälven,2030-02-01 00:00:00,63.2643 14.331,Aktuell (2026-2030),10,0,0,0,0,0,10,Jämtlands län
+38_4,Vojmån,2029-09-01 00:00:00,64.8701 17.8336,Aktuell (2026-2030),2,0,0,0,2,0,0,Västerbottens län
+38_1,Ångermanälven,2028-02-01 00:00:00,63.1125 17.2764,Aktuell (2026-2030),27,0,0,0,27,0,0,Västernorrlands län
+38_2,Faxälven,2029-02-01 00:00:00,63.2643 14.331,Aktuell (2026-2030),19,0,0,0,0,0,19,Jämtlands län
+30_1,Öreälven,2026-09-01 00:00:00,64.8701 17.8336,Aktuell (2026-2030),2,0,0,0,2,0,0,Västerbottens län
+82_1,Ronnebyån,2036-09-01 00:00:00,56.2937 15.2039,Framtida (efter 2030),15,0,0,0,0,0,15,Blekinge län
+34_1,Gideälven,2027-09-01 00:00:00,63.1125 17.2764,Aktuell (2026-2030),7,0,0,0,7,0,0,Västernorrlands län
+50_1,Hamrångeån,2022-02-01 00:00:00,61.464 16.3032,Passerad,3,0,2,0,0,1,0,Gävleborgs län
+108_C_1,Norsälven nedströms Övre Fryken,2036-02-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),17,0,0,0,0,0,17,Värmlands län
+77_1,Ljunbyån,2036-02-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),7,0,0,0,0,0,7,Kalmar län
+108_C_2,Norsälven uppströms Övre Fryken,2036-09-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),9,0,0,0,0,0,9,Värmlands län
+112_1,Enningdalsälven,2022-02-01 00:00:00,58.318 12.9015,Passerad,1,1,0,0,0,0,0,Västra Götalands län
+108_G_1,Lidan,2034-09-01 00:00:00,58.318 12.9015,Framtida (efter 2030),20,0,0,0,0,0,20,Västra Götalands län
+9_3,Bodträskån,2027-02-01 00:00:00,66.9506 20.1036,Aktuell (2026-2030),2,0,0,0,2,0,0,Norrbottens län
+9_1,Luleälven,2033-09-01 00:00:00,66.9506 20.1036,Framtida (efter 2030),4,0,0,0,0,0,4,Norrbottens län
+9_2,Bodån,2027-02-01 00:00:00,66.9506 20.1036,Aktuell (2026-2030),4,0,0,0,4,0,0,Norrbottens län
+86_2,Mörrumsån mellan Åsnen och Helgasjön,2026-02-01 00:00:00,56.8053 14.5898,Passerad,13,0,0,1,12,0,0,Kronobergs län
+86_3,Mörrumsån uppströms Helgasjön,2026-09-01 00:00:00,56.8053 14.5898,Aktuell (2026-2030),11,0,0,0,11,0,0,Kronobergs län
+67_9,Vättern norra,2027-02-01 00:00:00,59.3718 14.994,Aktuell (2026-2030),15,0,0,0,15,0,0,Örebro län
+86_1,Mörrumsån nedströms Åsnen,2026-02-01 00:00:00,56.8053 14.5898,Passerad,8,0,0,0,8,0,0,Kronobergs län
+54_1,Tämnarån,2022-02-01 00:00:00,60.0426 17.6858,Passerad,2,2,0,0,0,0,0,Uppsala län
+67_5,Vättern södra,2027-02-01 00:00:00,57.5138 14.4454,Aktuell (2026-2030),16,0,0,0,16,0,0,Jönköpings län
+43_1,Gnarpsån,2033-09-01 00:00:00,61.464 16.3032,Framtida (efter 2030),5,0,0,0,0,0,5,Gävleborgs län
+67_6,Hällestadsån uppströms Glan,2032-09-01 00:00:00,58.3689 15.6682,Framtida (efter 2030),16,0,0,0,0,0,16,Östergötlands län
+19_1,Kågeälven,2022-09-01 00:00:00,64.8701 17.8336,Passerad,1,1,0,0,0,0,0,Västerbottens län
+103_4,Assman uppströms Ätran,2030-02-01 00:00:00,58.318 12.9015,Aktuell (2026-2030),11,0,0,0,0,0,11,Västra Götalands län
+20_1,Skellefteälven,2030-02-01 00:00:00,64.8701 17.8336,Aktuell (2026-2030),17,0,0,0,17,0,0,Västerbottens län
+103_2,Ätran uppströms Högvadsån,2029-02-01 00:00:00,58.318 12.9015,Aktuell (2026-2030),22,0,0,0,22,0,0,Västra Götalands län
+103_3,Ätran biflöden från Fegen,2029-09-01 00:00:00,56.9753 12.8263,Aktuell (2026-2030),4,0,0,0,4,0,0,Hallands län
+37/38_1,Mellan Nätraån och Ångermanälven,2022-02-01 00:00:00,63.1125 17.2764,Passerad,3,1,0,2,0,0,0,Västernorrlands län
+70_1,Storån,2036-02-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),6,0,0,0,0,0,6,Kalmar län
+88/89_1,Österlen,2025-09-01 00:00:00,55.9628 13.6065,Passerad,1,0,0,0,0,1,0,Skåne län
+28_4,Stornorrfors,2028-02-01 00:00:00,64.8701 17.8336,Aktuell (2026-2030),2,0,0,0,2,0,0,Västerbottens län
+63_1,Trosaån,2022-02-01 00:00:00,59.4942 18.1112,Passerad,2,2,0,0,0,0,0,Stockholms län
+28_2,Vindelälven,2028-02-01 00:00:00,64.8701 17.8336,Aktuell (2026-2030),4,0,0,0,4,0,0,Västerbottens län
+67_3,Stångån,2031-09-01 00:00:00,58.3689 15.6682,Framtida (efter 2030),13,0,0,0,0,0,13,Östergötlands län
+67_4,Svartån uppströms Roxen,2032-02-01 00:00:00,57.5138 14.4454,Framtida (efter 2030),16,0,0,0,0,0,16,Jönköpings län
+67_1,Motala ströms huvudfåra,2031-02-01 00:00:00,58.3689 15.6682,Framtida (efter 2030),11,0,0,0,0,0,11,Östergötlands län
+28_1,Umeälven,2029-02-01 00:00:00,64.8701 17.8336,Aktuell (2026-2030),20,0,0,0,20,0,0,Västerbottens län
+97_1,Stensån,2022-02-01 00:00:00,56.9753 12.8263,Passerad,1,1,0,0,0,0,0,Hallands län
+107_1,Kungsbackaån,2025-09-01 00:00:00,58.318 12.9015,Passerad,4,0,0,0,0,4,0,Västra Götalands län
+108/109_1,Mellan Göta älv och Bäveån,2022-02-01 00:00:00,58.318 12.9015,Passerad,2,0,1,0,0,1,0,Västra Götalands län
+24_1,Rickleån,2022-02-01 00:00:00,64.8701 17.8336,Passerad,11,1,1,9,0,0,0,Västerbottens län
+100_1,Fylleån,2022-09-01 00:00:00,56.9753 12.8263,Passerad,5,1,1,3,0,0,0,Hallands län
+105/106_1,Mellan Viskan och Rolfsån,2029-02-01 00:00:00,56.9753 12.8263,Aktuell (2026-2030),2,0,0,0,0,0,2,Hallands län
+51_1,Testeboån,2022-09-01 00:00:00,61.464 16.3032,Passerad,8,2,5,2,0,0,0,Gävleborgs län
+40_1,Indalsälven,2034-02-01 00:00:00,63.1125 17.2764,Framtida (efter 2030),18,0,0,0,0,0,18,Västernorrlands län
+108_D_4,Årosälven,2029-09-01 00:00:00,60.9691 14.3691,Aktuell (2026-2030),11,0,0,0,0,0,11,Dalarnas län
+108_D_2,Kvarntorpsån,2029-02-01 00:00:00,59.7843 13.1539,Aktuell (2026-2030),3,0,0,0,0,0,3,Värmlands län
+108_D_3,Tjärnsälven,2029-02-01 00:00:00,59.7843 13.1539,Aktuell (2026-2030),2,0,0,0,0,0,2,Värmlands län
+74_3,Emån uppströms Gårdvedaån,2028-09-01 00:00:00,57.5138 14.4454,Aktuell (2026-2030),20,0,0,0,20,0,0,Jönköpings län
+81/82_1,Listerbyån,2038-02-01 00:00:00,56.2937 15.2039,Framtida (efter 2030),2,0,0,0,0,0,2,Blekinge län
+108_D_1,Klarälven,2028-09-01 00:00:00,59.7843 13.1539,Aktuell (2026-2030),17,0,0,0,17,0,0,Värmlands län
+74_4,Silverån,2028-09-01 00:00:00,57.5138 14.4454,Aktuell (2026-2030),3,0,0,0,3,0,0,Jönköpings län
+40_8,Långan,2035-02-01 00:00:00,63.2643 14.331,Framtida (efter 2030),5,0,0,0,0,0,5,Jämtlands län
+74_1,Emån nedströms Gårdvedaån,2028-02-01 00:00:00,57.2529 16.0536,Aktuell (2026-2030),9,0,0,0,9,0,0,Kalmar län
+40_9,Hårkan,2034-09-01 00:00:00,63.2643 14.331,Framtida (efter 2030),7,0,0,0,0,0,7,Jämtlands län
+74_2,Gårdvedaån,2028-02-01 00:00:00,57.2529 16.0536,Aktuell (2026-2030),8,0,0,0,8,0,0,Kalmar län
+40_6,Åreälven,2036-09-01 00:00:00,63.2643 14.331,Framtida (efter 2030),5,0,0,0,0,0,5,Jämtlands län
+61_12,Svartån till Mälaren,2025-09-01 00:00:00,59.8181 16.344,Passerad,5,0,0,0,5,0,0,Västmanlands län
+83_1,Vierydsån,2033-09-01 00:00:00,56.2937 15.2039,Framtida (efter 2030),2,0,0,0,0,0,2,Blekinge län
+40_7,Ytterån uppströms Storsjön,2035-02-01 00:00:00,63.2643 14.331,Framtida (efter 2030),3,0,0,0,0,0,3,Jämtlands län
+61_13,Sagån,2025-09-01 00:00:00,60.0426 17.6858,Passerad,3,0,0,0,3,0,0,Uppsala län
+40_4,Storbodströmmen,2035-09-01 00:00:00,63.2643 14.331,Framtida (efter 2030),1,0,0,0,0,0,1,Jämtlands län
+61_10,Kolbäcksån nedre,2028-09-01 00:00:00,59.8181 16.344,Aktuell (2026-2030),20,0,0,0,0,0,20,Västmanlands län
+40_5,Indalsälven uppströms Ockeströmmen,2036-02-01 00:00:00,63.2643 14.331,Framtida (efter 2030),5,0,0,0,0,0,5,Jämtlands län
+40_2,Storsjön,2035-09-01 00:00:00,63.2643 14.331,Framtida (efter 2030),4,0,0,0,0,0,4,Jämtlands län
+61_11,Kolbäcksån övre,2029-09-01 00:00:00,60.9691 14.3691,Aktuell (2026-2030),6,0,0,0,0,0,6,Dalarnas län
+3_1,Sangisälven,2025-07-01 00:00:00,66.9506 20.1036,Passerad,1,0,0,0,1,0,0,Norrbottens län
+40_3,Dammån,2035-09-01 00:00:00,63.2643 14.331,Framtida (efter 2030),1,0,0,0,0,0,1,Jämtlands län
+66/67_1,Norr Bråviken,2025-07-01 00:00:00,58.3689 15.6682,Passerad,1,0,0,0,1,0,0,Östergötlands län
+35_1,Idbyån,2025-07-01 00:00:00,63.1125 17.2764,Passerad,1,0,0,0,1,0,0,Västernorrlands län
+108_H_1,Säveån,2030-09-01 00:00:00,58.318 12.9015,Aktuell (2026-2030),21,0,0,0,0,0,21,Västra Götalands län
+78_1,Hagbyån,2037-02-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),2,0,0,0,0,0,2,Kalmar län
+12_1,Alterälven,2026-02-01 00:00:00,66.9506 20.1036,Passerad,1,0,0,0,1,0,0,Norrbottens län
+48_4,Ljusnan uppströms Laforsen,2032-09-01 00:00:00,63.2643 14.331,Framtida (efter 2030),16,0,0,0,0,0,16,Jämtlands län
+48_2,Voxnan,2031-02-01 00:00:00,61.464 16.3032,Framtida (efter 2030),16,0,0,0,0,0,16,Gävleborgs län
+48_3,Ljusnan uppströms Orsjön,2032-02-01 00:00:00,61.464 16.3032,Framtida (efter 2030),5,0,0,0,0,0,5,Gävleborgs län
+7,Avrinning till Västerhavet inom domsområdet för Mark- och miljödomstolen vid Vänersborg tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+44_1,Harmångersån,2026-09-01 00:00:00,61.464 16.3032,Aktuell (2026-2030),5,0,0,0,5,0,0,Gävleborgs län
+8,Avrinning till Östersjön och Västerhavet inom domsområdet för Mark- och miljödomstolen vid Växjö tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+87_1,Skräbeån,2025-09-01 00:00:00,55.9628 13.6065,Passerad,5,0,0,0,0,5,0,Skåne län
+98_7,Härån,2035-02-01 00:00:00,57.5138 14.4454,Framtida (efter 2030),11,0,0,0,0,0,11,Jönköpings län
+21_1,Bureälven,2032-02-01 00:00:00,64.8701 17.8336,Framtida (efter 2030),5,0,0,0,0,0,5,Västerbottens län
+71_1,Botorpsströmmen,2037-09-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),13,0,0,0,0,0,13,Kalmar län
+48_1,Ljusnan nedströms Orsjön,2030-09-01 00:00:00,61.464 16.3032,Aktuell (2026-2030),13,0,0,0,0,0,13,Gävleborgs län
+101_2,Kilan,2030-02-01 00:00:00,57.5138 14.4454,Aktuell (2026-2030),10,0,0,0,0,0,10,Jönköpings län
+101_3,Nissan uppströms Färgaryd,2030-09-01 00:00:00,57.5138 14.4454,Aktuell (2026-2030),14,0,0,0,0,0,14,Jönköpings län
+5,Avrinning till Norge inom domsområdet för Mark- och miljödomstolen vid Vänersborgs tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+108_A_1,Upperudsälven 1,2033-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),20,0,0,0,0,0,20,Västra Götalands län
+101_1,Nissan nedströms Färgaryd,2030-02-01 00:00:00,56.9753 12.8263,Aktuell (2026-2030),12,0,0,0,0,0,12,Hallands län
+6,Avrinning till Östersjön inom domsområdet för Mark- och miljödomstolen vid Nacka tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+108_A_2,Upperudsälven 2,2033-09-01 00:00:00,58.318 12.9015,Framtida (efter 2030),3,0,0,0,0,0,3,Västra Götalands län
+3,Avrinning till Norge inom domsområdet för Mark- och miljödomstolen vid Östersunds tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+98_5,Bolmån,2034-02-01 00:00:00,57.5138 14.4454,Framtida (efter 2030),19,0,0,0,0,0,19,Jönköpings län
+103/104_1,Tvååkersån m.fl.,2022-02-01 00:00:00,56.9753 12.8263,Passerad,2,1,1,0,0,0,0,Hallands län
+61_14,Örsundaån,2025-09-01 00:00:00,60.0426 17.6858,Passerad,2,0,0,0,2,0,0,Uppsala län
+4,Avrinning till Östersjön inom domsområdet för Mark- och miljödomstolen vid Östersunds tingsrätt,2025-07-01 00:00:00,63.1125 17.2764,Passerad,1,0,0,0,0,1,0,Västernorrlands län
+1,Avrinning till Norge inom domsområdet för Mark- och miljödomstolen vid Umeå tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+61_15,Fyrisån,2025-09-01 00:00:00,60.0426 17.6858,Passerad,2,0,0,0,0,0,2,Uppsala län
+98_6,Toftaån,2034-09-01 00:00:00,57.5138 14.4454,Framtida (efter 2030),18,0,0,0,0,0,18,Jönköpings län
+98_3,Krokån och Vänneån,2032-09-01 00:00:00,56.8053 14.5898,Framtida (efter 2030),6,0,0,0,0,0,6,Kronobergs län
+2,Avrinning till Östersjön inom domsområdet för Mark- och miljödomstolen vid Umeå tingsrätt,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+98_4,Lagan uppströms Ängabäck,2033-09-01 00:00:00,56.8053 14.5898,Framtida (efter 2030),11,0,0,0,0,0,11,Kronobergs län
+98_1,Lagan nedströms Ängabäck,2032-02-01 00:00:00,56.9753 12.8263,Framtida (efter 2030),10,0,0,0,0,0,10,Hallands län
+98_2,Lagan biflöden nedströms Ängabäck,2032-09-01 00:00:00,56.9753 12.8263,Framtida (efter 2030),8,0,0,0,0,0,8,Hallands län
+108_3,Forsnäsån,2035-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),4,0,0,0,0,0,4,Västra Götalands län
+80_1,Lyckebyån,2035-09-01 00:00:00,56.2937 15.2039,Framtida (efter 2030),8,0,0,0,0,0,8,Blekinge län
+108_4,Åmålsån,2035-09-01 00:00:00,58.318 12.9015,Framtida (efter 2030),4,0,0,0,0,0,4,Västra Götalands län
+108_1,Vänern mindre tillflöden,2035-02-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),5,0,0,0,0,0,5,Värmlands län
+68_1,Söderköpingsån,2025-07-01 00:00:00,58.3689 15.6682,Passerad,4,0,0,0,0,4,0,Östergötlands län
+108_2,Dalbergsån,2035-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),14,0,0,0,0,0,14,Västra Götalands län
+108_A_3,Upperudsälven 3,2033-09-01 00:00:00,58.318 12.9015,Framtida (efter 2030),4,0,0,0,0,0,4,Västra Götalands län
+108_A_4,Upperudsälven 4,2033-09-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),5,0,0,0,0,0,5,Värmlands län
+75_1,Alsterån,2027-09-01 00:00:00,57.2529 16.0536,Aktuell (2026-2030),24,0,0,0,24,0,0,Kalmar län
+108_9,Mölndalsån,2026-02-01 00:00:00,58.318 12.9015,Passerad,1,0,0,0,0,1,0,Västra Götalands län
+84_1,Bräkneån,2025-07-01 00:00:00,56.2937 15.2039,Passerad,4,0,0,0,0,4,0,Blekinge län
+110_1,Örekilsälven,2022-02-01 00:00:00,58.318 12.9015,Passerad,15,7,7,1,0,0,0,Västra Götalands län
+108_7,Råmmån och Sjöråsån,2035-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),2,0,0,0,0,0,2,Västra Götalands län
+36_1,Moälven,2026-09-01 00:00:00,63.1125 17.2764,Aktuell (2026-2030),3,0,0,0,3,0,0,Västernorrlands län
+108_8,Nossan,2034-09-01 00:00:00,58.318 12.9015,Framtida (efter 2030),15,0,0,0,0,0,15,Västra Götalands län
+108_5,Alsterälven,2032-02-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),6,0,0,0,0,0,6,Värmlands län
+108_E_5,Svartälven övre,2026-02-01 00:00:00,59.3718 14.994,Passerad,16,0,0,0,0,16,0,Örebro län
+108_6,Visman,2032-09-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),4,0,0,0,0,0,4,Värmlands län
+108_E_6,Sikforsån,2026-09-01 00:00:00,60.9691 14.3691,Aktuell (2026-2030),8,0,0,0,8,0,0,Dalarnas län
+108_E_4,Svartälven biflöden,2027-09-01 00:00:00,59.7843 13.1539,Aktuell (2026-2030),8,0,0,0,8,0,0,Värmlands län
+108_E_1,Gullspångsälven nedre,2025-07-01 00:00:00,59.3718 14.994,Passerad,16,1,0,0,0,15,0,Örebro län
+114_1,Nea,2027-02-01 00:00:00,63.2643 14.331,Aktuell (2026-2030),1,0,0,0,0,0,1,Jämtlands län
+84/85_1,Hällarydsån,2025-07-01 00:00:00,56.2937 15.2039,Passerad,1,0,0,1,0,0,0,Blekinge län
+118/117_1,Gotland nordost,Saknas,,Ingen deadline,0,0,0,0,0,0,0,
+79_1,Bruatorpsån,2037-02-01 00:00:00,57.2529 16.0536,Framtida (efter 2030),1,0,0,0,0,0,1,Kalmar län
+52_1,Gavleån,2038-02-01 00:00:00,61.464 16.3032,Framtida (efter 2030),17,0,0,0,0,0,17,Gävleborgs län
+52_2,Gavleån uppströms Storsjön,2037-02-01 00:00:00,61.464 16.3032,Framtida (efter 2030),11,0,0,0,0,0,11,Gävleborgs län
+108_I_1,Göta Älvs huvudfåra,2034-02-01 00:00:00,58.318 12.9015,Framtida (efter 2030),13,0,0,0,0,0,13,Västra Götalands län
+45_1,Delångersån,2027-02-01 00:00:00,61.464 16.3032,Aktuell (2026-2030),7,0,0,0,7,0,0,Gävleborgs län
+61_1,Eksågsån,2038-09-01 00:00:00,59.0941 16.7004,Framtida (efter 2030),5,0,0,0,0,0,5,Södermanlands län
+61_2,Hjälmaren,2037-09-01 00:00:00,59.3718 14.994,Framtida (efter 2030),8,0,0,0,0,0,8,Örebro län
+88_4,Vramsån,2029-09-01 00:00:00,55.9628 13.6065,Aktuell (2026-2030),7,0,0,0,0,0,7,Skåne län
+95_1,Vege å,2025-09-01 00:00:00,55.9628 13.6065,Passerad,1,0,0,0,0,1,0,Skåne län
+17_1,Åbyälven,2025-07-01 00:00:00,64.8701 17.8336,Passerad,1,0,0,0,0,1,0,Västerbottens län
+88_2,Almaån,2029-09-01 00:00:00,55.9628 13.6065,Aktuell (2026-2030),6,0,0,0,0,0,6,Skåne län
+88_1,Helge å,2029-02-01 00:00:00,55.9628 13.6065,Aktuell (2026-2030),28,0,0,0,0,0,28,Skåne län
+13_1,Piteälven,2025-09-01 00:00:00,66.9506 20.1036,Passerad,6,0,0,0,6,0,0,Norrbottens län
+38/39_1,Mellan Ångermanälven och Gådeån,2022-02-01 00:00:00,63.1125 17.2764,Passerad,1,1,0,0,0,0,0,Västernorrlands län
+61_9,Hedströmmen,2026-09-01 00:00:00,59.8181 16.344,Aktuell (2026-2030),16,0,1,0,0,0,15,Västmanlands län
+107/108_1,Mellan Onsalahalvön och Göta älv,2025-07-01 00:00:00,56.9753 12.8263,Passerad,1,0,0,0,0,1,0,Hallands län
+61_7,Borsån,2034-02-01 00:00:00,59.3718 14.994,Framtida (efter 2030),26,0,0,0,0,0,26,Örebro län
+61_8,Sverkestaån,2036-09-01 00:00:00,59.3718 14.994,Framtida (efter 2030),13,0,0,0,0,0,13,Örebro län
+61_5,Nedre Arbogaån,2036-02-01 00:00:00,59.3718 14.994,Framtida (efter 2030),13,0,0,0,0,0,13,Örebro län
+61_6,Dyltaån,2032-02-01 00:00:00,59.3718 14.994,Framtida (efter 2030),18,0,0,0,0,0,18,Örebro län
+61_3,Svartån till Hjälmaren,2037-02-01 00:00:00,59.3718 14.994,Framtida (efter 2030),14,0,0,0,0,0,14,Örebro län
+61_4,Teen uppströms,2039-02-01 00:00:00,59.3718 14.994,Framtida (efter 2030),11,0,0,0,0,0,11,Örebro län
+105_1,Viskan,2031-09-01 00:00:00,58.318 12.9015,Framtida (efter 2030),28,0,0,0,0,0,28,Västra Götalands län
+108_B_1,Byälven 1,2037-02-01 00:00:00,59.7843 13.1539,Framtida (efter 2030),16,0,0,0,0,0,16,Värmlands län
+108_E_3,Storforsälven,2028-02-01 00:00:00,59.7843 13.1539,Aktuell (2026-2030),5,0,0,0,5,0,0,Värmlands län
+108_E_2,Lungälven och Bjurbäcksälven,2025-09-01 00:00:00,59.7843 13.1539,Passerad,6,0,0,0,0,6,0,Värmlands län
