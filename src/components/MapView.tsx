@@ -31,10 +31,11 @@ const DEFAULT_CENTER: [number, number] = [63.0, 16.0];
 const DEFAULT_ZOOM = 5;
 
 const statusColors: Record<string, { fill: string; stroke: string }> = {
-  Pågår:        { fill: "hsl(210, 70%, 55%)", stroke: "hsl(210, 70%, 35%)" },
-  "Ej påbörjad": { fill: "hsl(15, 70%, 60%)",  stroke: "hsl(15, 70%, 40%)" },
-  Avslutad:     { fill: "hsl(150, 50%, 45%)", stroke: "hsl(150, 50%, 30%)" },
-  Mixed:        { fill: "hsl(35, 70%, 55%)",  stroke: "hsl(35, 70%, 35%)" },
+  Pågår:            { fill: "hsl(210, 70%, 55%)", stroke: "hsl(210, 70%, 35%)" },
+  "Ej påbörjad":    { fill: "hsl(15, 70%, 60%)",  stroke: "hsl(15, 70%, 40%)" },
+  Avslutad:         { fill: "hsl(150, 50%, 45%)", stroke: "hsl(150, 50%, 30%)" },
+  "Ingen deadline": { fill: "hsl(260, 30%, 72%)", stroke: "hsl(260, 30%, 52%)" },
+  Mixed:            { fill: "hsl(35, 70%, 55%)",  stroke: "hsl(35, 70%, 35%)" },
 };
 
 function getGroupColor(dominantStatus: string) {
