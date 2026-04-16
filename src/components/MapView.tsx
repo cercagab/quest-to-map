@@ -214,7 +214,8 @@ export default function MapView() {
       style: (feature) => {
         const fid = feature?.properties?.Id_nummer;
         const group = groupLookup[fid];
-        const colors = getGroupColor(group?.dominantStatus || "");
+        const dominant = group?.dominantStatus || "Ingen deadline";
+        const colors = getGroupColor(dominant);
         return {
           color: colors.stroke,
           weight: 1.5,
@@ -225,13 +226,20 @@ export default function MapView() {
       onEachFeature: (feature, leafletLayer) => {
         const fid = feature.properties?.Id_nummer;
         const group = groupLookup[fid];
-        if (group) {
-          leafletLayer.bindTooltip(tooltipContent(group), {
-            sticky: true,
-            opacity: 0.97,
-            className: "custom-tooltip",
-          });
-        }
+        const name = group?.name || feature.properties?.Namn || fid || "Okänd";
+        const info: GroupInfo = group || {
+          name,
+          id: fid || "",
+          total: 0,
+          datum: "",
+          statuses: {},
+          dominantStatus: "Ingen deadline",
+        };
+        leafletLayer.bindTooltip(tooltipContent(info), {
+          sticky: true,
+          opacity: 0.97,
+          className: "custom-tooltip",
+        });
 
         leafletLayer.on("mouseover", function (this: any) {
           this.setStyle({ fillOpacity: 0.55, weight: 2.5 });
