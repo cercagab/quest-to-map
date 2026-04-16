@@ -53,6 +53,7 @@ function escapeHtml(value: string) {
 
 function tooltipContent(group: GroupInfo) {
   const statusLines = Object.entries(group.statuses)
+    .filter(([, count]) => count > 0)
     .map(([status, count]) => {
       const color = statusColors[status]?.fill || "hsl(210, 8%, 55%)";
       return `<div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
@@ -66,7 +67,7 @@ function tooltipContent(group: GroupInfo) {
     <div style="min-width:200px;font:12px/1.5 system-ui,sans-serif;color:#1e293b;padding:2px;">
       <div style="font-weight:700;font-size:14px;margin-bottom:2px;">${escapeHtml(group.name)}</div>
       <div style="color:#64748b;font-size:11px;margin-bottom:6px;">${escapeHtml(group.id)} · Ansökan: ${escapeHtml(group.datum || "–")}</div>
-      <div style="font-size:12px;font-weight:600;margin-bottom:2px;">Totalt: ${group.total} kraftverk</div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;">Totalt: ${group.total} kraftverk</div>
       ${statusLines}
     </div>
   `;
