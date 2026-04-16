@@ -31,10 +31,11 @@ const DEFAULT_CENTER: [number, number] = [63.0, 16.0];
 const DEFAULT_ZOOM = 5;
 
 const statusColors: Record<string, { fill: string; stroke: string }> = {
-  Pågår:        { fill: "hsl(210, 70%, 55%)", stroke: "hsl(210, 70%, 35%)" },
-  "Ej påbörjad": { fill: "hsl(15, 70%, 60%)",  stroke: "hsl(15, 70%, 40%)" },
-  Avslutad:     { fill: "hsl(150, 50%, 45%)", stroke: "hsl(150, 50%, 30%)" },
-  Mixed:        { fill: "hsl(35, 70%, 55%)",  stroke: "hsl(35, 70%, 35%)" },
+  Pågår:            { fill: "hsl(210, 70%, 55%)", stroke: "hsl(210, 70%, 35%)" },
+  "Ej påbörjad":    { fill: "hsl(15, 70%, 60%)",  stroke: "hsl(15, 70%, 40%)" },
+  Avslutad:         { fill: "hsl(150, 50%, 45%)", stroke: "hsl(150, 50%, 30%)" },
+  "Ingen deadline": { fill: "hsl(260, 30%, 72%)", stroke: "hsl(260, 30%, 52%)" },
+  Mixed:            { fill: "hsl(35, 70%, 55%)",  stroke: "hsl(35, 70%, 35%)" },
 };
 
 function getGroupColor(dominantStatus: string) {
@@ -52,6 +53,7 @@ function escapeHtml(value: string) {
 
 function tooltipContent(group: GroupInfo) {
   const statusLines = Object.entries(group.statuses)
+    .filter(([, count]) => count > 0)
     .map(([status, count]) => {
       const color = statusColors[status]?.fill || "hsl(210, 8%, 55%)";
       return `<div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
@@ -65,7 +67,7 @@ function tooltipContent(group: GroupInfo) {
     <div style="min-width:200px;font:12px/1.5 system-ui,sans-serif;color:#1e293b;padding:2px;">
       <div style="font-weight:700;font-size:14px;margin-bottom:2px;">${escapeHtml(group.name)}</div>
       <div style="color:#64748b;font-size:11px;margin-bottom:6px;">${escapeHtml(group.id)} · Ansökan: ${escapeHtml(group.datum || "–")}</div>
-      <div style="font-size:12px;font-weight:600;margin-bottom:2px;">Totalt: ${group.total} kraftverk</div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:4px;">Totalt: ${group.total} kraftverk</div>
       ${statusLines}
     </div>
   `;
@@ -159,18 +161,34 @@ export default function MapView() {
     return lookup;
   }, [plants]);
 
+  // Collect all GeoJSON IDs (including those without CSV data)
+  const allGeojsonIds = useMemo(() => {
+    if (!geojson) return new Set<string>();
+    const ids = new Set<string>();
+    for (const feature of geojson.features || []) {
+      const fid = feature.properties?.Id_nummer;
+      if (fid) ids.add(fid);
+    }
+    return ids;
+  }, [geojson]);
+
   // Filter groups
   const visibleGroupIds = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
     const ids = new Set<string>();
 
-    for (const [gid, group] of Object.entries(groupLookup)) {
-      if (activeStatus && group.dominantStatus !== activeStatus) continue;
-      if (normalizedSearch && !group.name.toLowerCase().includes(normalizedSearch)) continue;
+    for (const gid of allGeojsonIds) {
+      const group = groupLookup[gid];
+      const dominantStatus = group?.dominantStatus || "Ingen deadline";
+      if (activeStatus && dominantStatus !== activeStatus) continue;
+      if (normalizedSearch) {
+        const name = group?.name?.toLowerCase() || gid.toLowerCase();
+        if (!name.includes(normalizedSearch)) continue;
+      }
       ids.add(gid);
     }
     return ids;
-  }, [groupLookup, activeStatus, searchTerm]);
+  }, [allGeojsonIds, groupLookup, activeStatus, searchTerm]);
 
   const totalPlants = useMemo(() => {
     let count = 0;
@@ -196,7 +214,8 @@ export default function MapView() {
       style: (feature) => {
         const fid = feature?.properties?.Id_nummer;
         const group = groupLookup[fid];
-        const colors = getGroupColor(group?.dominantStatus || "");
+        const dominant = group?.dominantStatus || "Ingen deadline";
+        const colors = getGroupColor(dominant);
         return {
           color: colors.stroke,
           weight: 1.5,
@@ -207,13 +226,20 @@ export default function MapView() {
       onEachFeature: (feature, leafletLayer) => {
         const fid = feature.properties?.Id_nummer;
         const group = groupLookup[fid];
-        if (group) {
-          leafletLayer.bindTooltip(tooltipContent(group), {
-            sticky: true,
-            opacity: 0.97,
-            className: "custom-tooltip",
-          });
-        }
+        const name = group?.name || feature.properties?.Namn || fid || "Okänd";
+        const info: GroupInfo = group || {
+          name,
+          id: fid || "",
+          total: 0,
+          datum: "",
+          statuses: {},
+          dominantStatus: "Ingen deadline",
+        };
+        leafletLayer.bindTooltip(tooltipContent(info), {
+          sticky: true,
+          opacity: 0.97,
+          className: "custom-tooltip",
+        });
 
         leafletLayer.on("mouseover", function (this: any) {
           this.setStyle({ fillOpacity: 0.55, weight: 2.5 });
@@ -227,7 +253,7 @@ export default function MapView() {
     polygonsLayerRef.current = layer;
   }, [geojson, visibleGroupIds, groupLookup]);
 
-  const statuses = ["Pågår", "Ej påbörjad", "Avslutad"];
+  const statuses = ["Pågår", "Ej påbörjad", "Avslutad", "Ingen deadline"];
 
   return (
     <div className="flex h-screen flex-col bg-background">
