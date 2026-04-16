@@ -161,18 +161,34 @@ export default function MapView() {
     return lookup;
   }, [plants]);
 
+  // Collect all GeoJSON IDs (including those without CSV data)
+  const allGeojsonIds = useMemo(() => {
+    if (!geojson) return new Set<string>();
+    const ids = new Set<string>();
+    for (const feature of geojson.features || []) {
+      const fid = feature.properties?.Id_nummer;
+      if (fid) ids.add(fid);
+    }
+    return ids;
+  }, [geojson]);
+
   // Filter groups
   const visibleGroupIds = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
     const ids = new Set<string>();
 
-    for (const [gid, group] of Object.entries(groupLookup)) {
-      if (activeStatus && group.dominantStatus !== activeStatus) continue;
-      if (normalizedSearch && !group.name.toLowerCase().includes(normalizedSearch)) continue;
+    for (const gid of allGeojsonIds) {
+      const group = groupLookup[gid];
+      const dominantStatus = group?.dominantStatus || "Ingen deadline";
+      if (activeStatus && dominantStatus !== activeStatus) continue;
+      if (normalizedSearch) {
+        const name = group?.name?.toLowerCase() || gid.toLowerCase();
+        if (!name.includes(normalizedSearch)) continue;
+      }
       ids.add(gid);
     }
     return ids;
-  }, [groupLookup, activeStatus, searchTerm]);
+  }, [allGeojsonIds, groupLookup, activeStatus, searchTerm]);
 
   const totalPlants = useMemo(() => {
     let count = 0;
