@@ -253,7 +253,7 @@ export default function MapView() {
     polygonsLayerRef.current = layer;
   }, [geojson, visibleGroupIds, groupLookup]);
 
-  const statuses = ["Pågår", "Ej påbörjad", "Avslutad"];
+  const statuses = ["Pågår", "Ej påbörjad", "Avslutad", "Ingen deadline"];
 
   return (
     <div className="flex h-screen flex-col bg-background">
