@@ -104,6 +104,34 @@
       border: none !important;
       box-shadow: 0 2px 6px rgba(0,0,0,0.12) !important;
     }
+
+    /* === Tooltip === */
+    .nap-tooltip {
+      background: #ffffff;
+      border: 1px solid #dde2e8;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+      padding: 8px 10px;
+      max-width: 320px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #334e68;
+      pointer-events: none;
+      white-space: normal;
+    }
+    .nap-tooltip::before { display: none; }
+    .nap-tooltip .tt-title {
+      font-weight: 700;
+      color: #1a2d42;
+      margin-bottom: 3px;
+    }
+    .nap-tooltip .tt-names {
+      font-size: 0.9em;
+      color: #6b7f94;
+      margin-left: 10px;
+      margin-top: 1px;
+    }
   </style>
 </head>
 <body>
@@ -202,23 +230,79 @@
     'Täckningsområde': { fill: '#b0b0b0' },
   };
 
-  const STROKE_COLOR  = '#aab5be';  // enhetlig ljusgrå för alla kategorier
+  // Enhetlig kantlinjefärg för alla kategorier — ljusgrå, inte
+  // kategorispecifik. Vid 0.6 px vikt och 0.9 fyllning är det
+  // tillräckligt för att separera polygoner utan att skapa visuell brus.
+  const STROKE_COLOR  = '#aab5be';
   const STROKE_WEIGHT = 0.6;
 
   function getColors(kategori) {
     return COLORS[kategori] || COLORS['Täckningsområde'];
   }
 
+  // ── Tooltip-hjälpfunktioner ───────────────────────────────────────────────
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  const MANADER = ['januari','februari','mars','april','maj','juni',
+                   'juli','augusti','september','oktober','november','december'];
+  function formateraDatum(iso) {
+    if (!iso) return '';
+    const [y, m, d] = iso.split('-');
+    return parseInt(d, 10) + ' ' + MANADER[parseInt(m, 10) - 1] + ' ' + y;
+  }
+
+  function buildTooltipHTML(p) {
+    const titel = '<div class="tt-title">'
+      + escapeHtml(p.provningsgrupp_namn)
+      + ' (' + escapeHtml(p.provningsgrupp_id) + ')</div>';
+
+    // Täckningsområde — inga kraftverk
+    if (!p.har_kraftverk) {
+      return titel + '<div>Täckningsområde — inga anmälda kraftverk</div>';
+    }
+
+    // Aktiv prövningsgrupp
+    let html = titel;
+    if (p.deadline) {
+      html += '<div>Deadline: ' + escapeHtml(formateraDatum(p.deadline))
+            + ' (' + escapeHtml(p.deadline_kategori) + ')</div>';
+    }
+    html += '<div>Totalt: ' + p.antal_kraftverk + ' kraftverk</div>';
+
+    const rader = [
+      { label: 'Avslutad (laga kraft)', antal: p.antal_avslutad,   namn: p.namn_avslutad    },
+      { label: 'Pågår',                 antal: p.antal_pagar,       namn: p.namn_pagar       },
+      { label: 'Ej påbörjad',           antal: p.antal_ej_paborjad, namn: p.namn_ej_paborjad },
+    ];
+    for (const r of rader) {
+      if (r.antal > 0) {
+        html += '<div>• ' + escapeHtml(r.label) + ': ' + r.antal + '</div>';
+        if (r.namn) {
+          html += '<div class="tt-names">' + escapeHtml(r.namn) + '</div>';
+        }
+      }
+    }
+    return html;
+  }
+
   // ── Initiera Leaflet-karta ────────────────────────────────────────────────
-  // Ingen fast center/zoom — fitBounds garanterar att hela Sverige syns
-  // oavsett fönsterstorlek (Treriksröset i norr till Smygehuk i söder).
+  // Ingen fast center/zoom — vi använder fitBounds så att hela Sverige
+  // (Treriksröset i norr till Smygehuk i söder) alltid ryms i vyn.
   const map = L.map('map', {
     zoomControl: true,
   });
 
+  // Sveriges ungefärliga geografiska ytterkanter med lite marginal
   const SWEDEN_BOUNDS = L.latLngBounds(
     L.latLng(55.0, 10.5),   // sydväst (utanför Smygehuk/Falsterbo)
-    L.latLng(69.5, 24.5)    // nordost (utanför Treriksröset)
+    L.latLng(69.5, 24.5),   // nordost (utanför Treriksröset)
   );
   map.fitBounds(SWEDEN_BOUNDS);
 
@@ -248,8 +332,10 @@
       };
     },
 
-    // Hover-effekt: lyft fram polygon när musen är över den
+    // Hover-effekt och tooltip
     onEachFeature: function(feature, layer) {
+      layer.bindTooltip(buildTooltipHTML(feature.properties),
+        { sticky: true, direction: 'auto', className: 'nap-tooltip' });
       layer.on({
         mouseover: function() {
           this.setStyle({ fillOpacity: 1.0, weight: 1.5, color: '#556677' });
