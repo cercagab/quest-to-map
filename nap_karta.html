@@ -50,10 +50,46 @@
       color: #6b7f94;
     }
 
-    /* === Karta (fyller resten av fönstret under headern) === */
+    /* === Filterknappar (fast rad under headern) === */
+    .filter-bar {
+      position: fixed;
+      top: 56px; left: 0; right: 0;
+      height: 48px;
+      background: #f5f7fa;
+      border-bottom: 1px solid #dde2e8;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 8px;
+      z-index: 999;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid #cdd4dc;
+      background: #ffffff;
+      color: #334e68;
+      font-size: 13px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover { background: #eef2f6; }
+
+    .filter-btn.active {
+      background: #334e68;
+      color: #ffffff;
+      border-color: #334e68;
+      font-weight: 600;
+    }
+
+    /* === Karta (fyller resten av fönstret under header + filter-bar) === */
     #map {
       position: fixed;
-      top: 56px; left: 0; right: 0; bottom: 0;
+      top: 104px; left: 0; right: 0; bottom: 0;
     }
 
     /* === Legend (nere till vänster) === */
@@ -142,6 +178,15 @@
     NAP Vattenkraftverk
     <span id="nap-subtitle">Prövningsgrupper — Deadline-översikt</span>
   </div>
+</div>
+
+<!-- Filterknappar -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="alla">Alla (197)</button>
+  <button class="filter-btn" data-filter="passerad">Passerad (57)</button>
+  <button class="filter-btn" data-filter="tidsnara">Tidsnära (51)</button>
+  <button class="filter-btn" data-filter="langre_fram">Längre fram (81)</button>
+  <button class="filter-btn" data-filter="utan_deadline">Utan deadline (8)</button>
 </div>
 
 <!-- Karta -->
@@ -350,6 +395,31 @@
     },
 
   }).addTo(map);
+
+  // ── Filterknappar ─────────────────────────────────────────────────────────
+  function tillämpaFilter(filter) {
+    polygonLayer.eachLayer(function(layer) {
+      const p = layer.feature.properties;
+      let visa = false;
+      if      (filter === 'alla')          visa = true;
+      else if (filter === 'passerad')      visa = p.deadline_kategori === 'Passerad';
+      else if (filter === 'tidsnara')      visa = p.deadline_kategori === 'Tidsnära';
+      else if (filter === 'langre_fram')   visa = p.deadline_kategori === 'Längre fram';
+      else if (filter === 'utan_deadline') visa = p.har_kraftverk === false;
+      const el = layer.getElement();
+      if (el) el.style.display = visa ? '' : 'none';
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+      tillämpaFilter(btn.dataset.filter);
+    });
+  });
 
 </script>
 </body>
