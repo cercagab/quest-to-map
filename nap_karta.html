@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NAP Vattenkraftverk — Deadline-översikt</title>
+  <title>Sveriges vattenkraft — deadline-status i den nationella planen för omprövning av vattenkraft (NAP)</title>
 
   <!-- Leaflet från CDN -->
   <link  rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -40,7 +40,6 @@
       font-weight: 700;
       color: #1a2d42;
       line-height: 1.35;
-      white-space: nowrap;
     }
 
     #nap-subtitle {
@@ -86,10 +85,92 @@
       font-weight: 600;
     }
 
-    /* === Karta (fyller resten av fönstret under header + filter-bar) === */
-    #map {
+    /* === Kart-wrapper (karta + sidopanel, sida vid sida) === */
+    #map-wrapper {
       position: fixed;
       top: 104px; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: row;
+    }
+
+    /* === Karta (fyller resten av utrymmet i wrappern) === */
+    #map {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    /* === Sidopanel (höger om kartan) === */
+    #info-panel {
+      width: 300px;
+      flex-shrink: 0;
+      background: #f8f9fa;
+      border-left: 1px solid #dde2e8;
+      overflow-y: auto;
+      padding: 16px;
+      font-size: 13px;
+      color: #334e68;
+      line-height: 1.5;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a2d42;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #dde2e8;
+    }
+
+    .panel-section {
+      margin-bottom: 12px;
+    }
+
+    .panel-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7f94;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .panel-value {
+      color: #1a2d42;
+    }
+
+    .panel-stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+      border-bottom: 1px solid #eef1f4;
+    }
+
+    .panel-stat-row:last-child { border-bottom: none; }
+
+    .panel-stat-count {
+      font-weight: 600;
+      color: #1a2d42;
+    }
+
+    .panel-names {
+      font-size: 0.9em;
+      color: #6b7f94;
+      margin-left: 10px;
+      margin-top: 1px;
+    }
+
+    .panel-hint {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #9aacbb;
+      font-style: italic;
+    }
+
+    .panel-empty-note {
+      color: #6b7f94;
+      font-style: italic;
     }
 
     /* === Legend (nere till vänster) === */
@@ -134,11 +215,11 @@
       flex-shrink: 0;
     }
 
-    /* === Datumstämpel (nere till höger) === */
+    /* === Datumstämpel (nere i kartytan, ej överlappande med panel) === */
     #nap-datumstampel {
       position: fixed;
       bottom: 24px;
-      right: 12px;
+      right: calc(300px + 12px);
       background: rgba(255,255,255,0.9);
       border: 1px solid #dde2e8;
       border-radius: 4px;
@@ -158,32 +239,13 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.12) !important;
     }
 
-    /* === Tooltip === */
-    .nap-tooltip {
-      background: #ffffff;
-      border: 1px solid #dde2e8;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-      padding: 8px 10px;
-      max-width: 320px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 13px;
-      line-height: 1.4;
-      color: #334e68;
-      pointer-events: none;
-      white-space: normal;
-    }
-    .nap-tooltip::before { display: none; }
-    .nap-tooltip .tt-title {
-      font-weight: 700;
-      color: #1a2d42;
-      margin-bottom: 3px;
-    }
-    .nap-tooltip .tt-names {
-      font-size: 0.9em;
-      color: #6b7f94;
-      margin-left: 10px;
-      margin-top: 1px;
+    /* === Mobilanpassning === */
+    @media (max-width: 768px) {
+      html, body { overflow: auto; height: auto; }
+      #map-wrapper { position: static; flex-direction: column; margin-top: 104px; }
+      #map { height: 60vh; }
+      #info-panel { width: 100%; }
+      #nap-datumstampel { right: 12px; }
     }
   </style>
 </head>
@@ -192,8 +254,8 @@
 <!-- Header -->
 <div id="nap-header">
   <div id="nap-title">
-    NAP Vattenkraftverk
-    <span id="nap-subtitle">Prövningsgrupper — Deadline-översikt</span>
+    Sveriges vattenkraft
+    <span id="nap-subtitle">Deadline-status i den nationella planen för omprövning av vattenkraft (NAP)</span>
   </div>
 </div>
 
@@ -206,8 +268,13 @@
   <button class="filter-btn" data-filter="utan_deadline">Utan deadline (8)</button>
 </div>
 
-<!-- Karta -->
-<div id="map"></div>
+<!-- Karta + sidopanel -->
+<div id="map-wrapper">
+  <div id="map"></div>
+  <div id="info-panel">
+    <div id="panel-content"></div>
+  </div>
+</div>
 
 <!-- Legend -->
 <div id="nap-legend">
@@ -297,17 +364,17 @@
     'Täckningsområde': { fill: '#b0b0b0' },
   };
 
-  // Enhetlig kantlinjefärg för alla kategorier — ljusgrå, inte
-  // kategorispecifik. Vid 0.6 px vikt och 0.9 fyllning är det
-  // tillräckligt för att separera polygoner utan att skapa visuell brus.
-  const STROKE_COLOR  = '#aab5be';
-  const STROKE_WEIGHT = 0.6;
+  // Kantlinje: enhetlig ljusgrå i default-läge, mörkare vid hover
+  const STROKE_COLOR        = '#aab5be';
+  const STROKE_WEIGHT       = 0.6;
+  const STROKE_COLOR_HOVER  = '#4a5560';
+  const STROKE_WEIGHT_HOVER = 2;
 
   function getColors(kategori) {
     return COLORS[kategori] || COLORS['Täckningsområde'];
   }
 
-  // ── Tooltip-hjälpfunktioner ───────────────────────────────────────────────
+  // ── Hjälpfunktioner ───────────────────────────────────────────────────────
   function escapeHtml(s) {
     if (s == null) return '';
     return String(s)
@@ -325,23 +392,68 @@
     return parseInt(d, 10) + ' ' + MANADER[parseInt(m, 10) - 1] + ' ' + y;
   }
 
-  function buildTooltipHTML(p) {
-    const titel = '<div class="tt-title">'
-      + escapeHtml(p.provningsgrupp_namn)
-      + ' (' + escapeHtml(p.provningsgrupp_id) + ')</div>';
+  // ── Sidopanel — default-vy (översikt från metadata) ───────────────────────
+  function buildDefaultPanelHTML() {
+    const dist         = METADATA.fordelning_deadline_provningsgruppsniva || {};
+    const total        = METADATA.antal_polygoner_totalt || 0;
+    const passerad     = dist['Passerad']    || 0;
+    const tidsnara     = dist['Tidsnära']    || 0;
+    const langreFram   = dist['Längre fram'] || 0;
+    const utanDeadline = METADATA.antal_tackningsomraden_utan_data || 0;
 
-    // Täckningsområde — inga kraftverk
+    return '<div class="panel-title">Översikt</div>'
+      + '<div class="panel-section">'
+      +   '<div class="panel-label">Totalt antal prövningsgrupper</div>'
+      +   '<div class="panel-value">' + total + '</div>'
+      + '</div>'
+      + '<div class="panel-section">'
+      +   '<div class="panel-label">Fördelning per deadline-kategori</div>'
+      +   '<div class="panel-stat-row"><span>Passerad</span>'
+      +     '<span class="panel-stat-count">' + passerad + '</span></div>'
+      +   '<div class="panel-stat-row"><span>Tidsnära</span>'
+      +     '<span class="panel-stat-count">' + tidsnara + '</span></div>'
+      +   '<div class="panel-stat-row"><span>Längre fram</span>'
+      +     '<span class="panel-stat-count">' + langreFram + '</span></div>'
+      +   '<div class="panel-stat-row"><span>Utan deadline</span>'
+      +     '<span class="panel-stat-count">' + utanDeadline + '</span></div>'
+      + '</div>'
+      + '<div class="panel-hint">Hovra över ett område för detaljer.</div>';
+  }
+
+  // ── Sidopanel — hover-vy (detaljer för en polygon) ────────────────────────
+  function buildPanelHTML(p) {
+    let html = '<div class="panel-title">' + escapeHtml(p.provningsgrupp_namn) + '</div>'
+      + '<div class="panel-section">'
+      +   '<div class="panel-label">ID</div>'
+      +   '<div class="panel-value">' + escapeHtml(p.provningsgrupp_id) + '</div>'
+      + '</div>';
+
+    // Täckningsområde utan anmälda kraftverk
     if (!p.har_kraftverk) {
-      return titel + '<div>Täckningsområde — inga anmälda kraftverk</div>';
+      if (p.deadline) {
+        html += '<div class="panel-section">'
+          +   '<div class="panel-label">Deadline</div>'
+          +   '<div class="panel-value">' + escapeHtml(formateraDatum(p.deadline)) + '</div>'
+          + '</div>';
+      }
+      html += '<div class="panel-section">'
+        + '<div class="panel-empty-note">Området är definierat i Strömmen men saknar anmälda kraftverk.</div>'
+        + '</div>';
+      return html;
     }
 
     // Aktiv prövningsgrupp
-    let html = titel;
     if (p.deadline) {
-      html += '<div>Deadline: ' + escapeHtml(formateraDatum(p.deadline))
-            + ' (' + escapeHtml(p.deadline_kategori) + ')</div>';
+      html += '<div class="panel-section">'
+        +   '<div class="panel-label">Deadline</div>'
+        +   '<div class="panel-value">' + escapeHtml(formateraDatum(p.deadline))
+        +     ' <span style="color:#6b7f94;font-size:0.9em;">(' + escapeHtml(p.deadline_kategori) + ')</span></div>'
+        + '</div>';
     }
-    html += '<div>Totalt: ' + p.antal_kraftverk + ' kraftverk</div>';
+
+    html += '<div class="panel-section">'
+      +   '<div class="panel-label">Kraftverk</div>'
+      +   '<div class="panel-value">' + p.antal_kraftverk + ' totalt</div>';
 
     const rader = [
       { label: 'Avslutad (laga kraft)', antal: p.antal_avslutad,   namn: p.namn_avslutad    },
@@ -350,13 +462,25 @@
     ];
     for (const r of rader) {
       if (r.antal > 0) {
-        html += '<div>• ' + escapeHtml(r.label) + ': ' + r.antal + '</div>';
+        html += '<div style="margin-top:6px;">• ' + escapeHtml(r.label) + ': ' + r.antal + '</div>';
         if (r.namn) {
-          html += '<div class="tt-names">' + escapeHtml(r.namn) + '</div>';
+          html += '<div class="panel-names">' + escapeHtml(r.namn) + '</div>';
         }
       }
     }
+    html += '</div>';
     return html;
+  }
+
+  // ── Panel-uppdatering ─────────────────────────────────────────────────────
+  const panelEl = document.getElementById('panel-content');
+
+  function updatePanel(html) {
+    panelEl.innerHTML = html;
+  }
+
+  function showDefaultPanel() {
+    updatePanel(buildDefaultPanelHTML());
   }
 
   // ── Initiera Leaflet-karta ────────────────────────────────────────────────
@@ -385,7 +509,6 @@
   ).addTo(map);
 
   // ── Lägg till polygoner ───────────────────────────────────────────────────
-  // Vi sparar referensen till lagret för att kunna återställa stil vid mouseout
   const polygonLayer = L.geoJSON(GEOJSON_DATA, {
 
     // Färglägg varje polygon baserat på deadline_kategori
@@ -399,24 +522,35 @@
       };
     },
 
-    // Hover-effekt och tooltip
+    // Hover-highlight och sidopanel
     onEachFeature: function(feature, layer) {
-      layer.bindTooltip(buildTooltipHTML(feature.properties),
-        { sticky: true, direction: 'auto', className: 'nap-tooltip' });
       layer.on({
         mouseover: function() {
-          this.setStyle({ fillOpacity: 1.0, weight: 1.5, color: '#556677' });
+          this.setStyle({
+            color:       STROKE_COLOR_HOVER,
+            weight:      STROKE_WEIGHT_HOVER,
+            fillOpacity: 1.0,
+          });
           // bringToFront() hindrar angränsande polygoner från att rita sin
           // kant ovanpå den aktiva — ser renare ut vid zoomade nivåer
           this.bringToFront();
+          updatePanel(buildPanelHTML(feature.properties));
         },
         mouseout: function() {
           polygonLayer.resetStyle(this);
+          showDefaultPanel();
+        },
+        // Touch-enheter: trigga samma panel-uppdatering som mouseover
+        click: function() {
+          updatePanel(buildPanelHTML(feature.properties));
         },
       });
     },
 
   }).addTo(map);
+
+  // ── Visa default-vy i panelen vid sidladdning ─────────────────────────────
+  showDefaultPanel();
 
   // ── Filterknappar ─────────────────────────────────────────────────────────
   function tillämpaFilter(filter) {
