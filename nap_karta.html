@@ -61,7 +61,13 @@
       padding: 0 14px;
       gap: 8px;
       z-index: 999;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
+
+    .filter-bar::-webkit-scrollbar { height: 6px; }
+    .filter-bar::-webkit-scrollbar-track { background: rgba(0,0,0,0.04); }
+    .filter-bar::-webkit-scrollbar-thumb { background: #b0bac5; border-radius: 2px; }
 
     .filter-btn {
       padding: 6px 14px;
@@ -243,6 +249,52 @@
       pointer-events: none;
     }
 
+    /* === Legend och datumstämpel — inline-version för mobil (dold på desktop) === */
+    #nap-legend-mobile {
+      display: none;
+      border-top: 1px solid #dde2e8;
+      padding-top: 12px;
+      margin-bottom: 16px;
+    }
+
+    #nap-datumstampel-mobile {
+      display: none;
+      font-size: 11px;
+      color: #9aacbb;
+      font-style: italic;
+      border-top: 1px solid #eef1f4;
+      padding-top: 10px;
+      margin-top: 16px;
+    }
+
+    /* === Horisontell legend (fast rad under filterbaren, bara mobil) === */
+    #nap-legend-horizontal {
+      display: none;
+      position: fixed;
+      top: 104px;
+      left: 0; right: 0;
+      height: 30px;
+      background: #fafbfc;
+      border-bottom: 1px solid #dde2e8;
+      padding: 0 10px;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 998;
+      font-size: 10px;
+    }
+
+    #nap-legend-horizontal .nap-legend-item {
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+
+    #nap-legend-horizontal .nap-legend-swatch {
+      width: 12px;
+      height: 8px;
+    }
+
     /* === Leaflet tweaks === */
     .leaflet-control-attribution { font-size: 10px !important; }
     .leaflet-control-zoom {
@@ -252,11 +304,20 @@
 
     /* === Mobilanpassning === */
     @media (max-width: 768px) {
-      html, body { overflow: auto; height: auto; }
-      #map-wrapper { position: static; flex-direction: column; margin-top: 104px; }
-      #map { height: 60vh; }
-      #info-panel { width: 100%; }
-      #nap-datumstampel { right: 12px; }
+      #map-wrapper { flex-direction: column; top: 134px; }
+      #map { flex: 1 1 60%; min-height: 0; }
+      #info-panel {
+        flex: 0 0 40%;
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #dde2e8;
+        max-height: 40vh;
+      }
+      #nap-legend { display: none; }
+      #nap-datumstampel { display: none; }
+      #nap-legend-mobile { display: none; }
+      #nap-legend-horizontal { display: flex; }
+      #nap-datumstampel-mobile { display: block; }
     }
   </style>
 </head>
@@ -279,11 +340,55 @@
   <button class="filter-btn" data-filter="utan_deadline">Utan deadline (10)</button>
 </div>
 
+<!-- Horisontell legend (bara mobil, under filterbaren) -->
+<div id="nap-legend-horizontal">
+  <div class="nap-legend-item">
+    <span class="nap-legend-swatch" style="background:#2c4a6e;border:1px solid #aab5be;"></span>
+    Passerad (före 2026)
+  </div>
+  <div class="nap-legend-item">
+    <span class="nap-legend-swatch" style="background:#6b8cae;border:1px solid #aab5be;"></span>
+    Tidsnära (2026–2030)
+  </div>
+  <div class="nap-legend-item">
+    <span class="nap-legend-swatch" style="background:#c0cfd9;border:1px solid #aab5be;"></span>
+    Längre fram (efter 2030)
+  </div>
+  <div class="nap-legend-item">
+    <span class="nap-legend-swatch" style="background:#b0b0b0;border:1px solid #aab5be;"></span>
+    Utan deadline
+  </div>
+</div>
+
 <!-- Karta + sidopanel -->
 <div id="map-wrapper">
   <div id="map"></div>
   <div id="info-panel">
+    <!-- Legend (inline, visas bara i mobilvy via CSS) -->
+    <div id="nap-legend-mobile">
+      <div class="nap-legend-title">Deadline-kategori</div>
+      <div class="nap-legend-item">
+        <span class="nap-legend-swatch" style="background:#2c4a6e;border:1px solid #aab5be;"></span>
+        Passerad (före 2026)
+      </div>
+      <div class="nap-legend-item">
+        <span class="nap-legend-swatch" style="background:#6b8cae;border:1px solid #aab5be;"></span>
+        Tidsnära (2026–2030)
+      </div>
+      <div class="nap-legend-item">
+        <span class="nap-legend-swatch" style="background:#c0cfd9;border:1px solid #aab5be;"></span>
+        Längre fram (efter 2030)
+      </div>
+      <div class="nap-legend-item">
+        <span class="nap-legend-swatch" style="background:#b0b0b0;border:1px solid #aab5be;"></span>
+        Utan deadline
+      </div>
+    </div>
     <div id="panel-content"></div>
+    <!-- Datumstämpel (inline, visas bara i mobilvy via CSS) -->
+    <div id="nap-datumstampel-mobile">
+      Data från Strömmen (HaV), senast hämtad 24 april 2026
+    </div>
   </div>
 </div>
 
@@ -310,7 +415,7 @@
 
 <!-- Datumstämpel -->
 <div id="nap-datumstampel">
-  Data från Strömmen (HaV), senast hämtad 23 april 2026
+  Data från Strömmen (HaV), senast hämtad 24 april 2026
 </div>
 
 <script>
@@ -320,8 +425,8 @@
   "titel": "NAP Vattenkraftverk — Deadline-översikt",
   "beskrivning": "Kartdata för prövningsgrupper i den nationella planen för moderna miljövillkor (NAP).",
   "kalla": "Havs- och vattenmyndigheten, databas Strömmen",
-  "datauttag_datum": "2026-04-23",
-  "brytpunkt_passerad": "2026-04-23",
+  "datauttag_datum": "2026-04-24",
+  "brytpunkt_passerad": "2026-04-24",
   "brytpunkt_tidsnara_slut": "2030-12-31",
   "antal_kraftverk_totalt": 1904,
   "antal_provningsgrupper_med_data": 187,
@@ -383,6 +488,8 @@
   const STROKE_COLOR_HOVER  = '#4a5560';
   const STROKE_WEIGHT_HOVER = 2;
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
   function getColors(kategori) {
     return COLORS[kategori] || COLORS['Täckningsområde'];
   }
@@ -430,14 +537,14 @@
       +   '<div class="panel-stat-row"><span>Utan deadline</span>'
       +     '<span class="panel-stat-count">' + utanDeadline + '</span></div>'
       + '</div>'
-      + '<div class="panel-hint">Hovra över ett område för detaljer.</div>';
+      + '<div class="panel-hint">Hovra eller tryck på ett område för detaljer.</div>';
   }
 
   // ── Sidopanel — hover-vy (detaljer för en polygon) ────────────────────────
   function buildPanelHTML(p) {
     let html = '<div class="panel-title">' + escapeHtml(p.provningsgrupp_namn) + '</div>'
       + '<div class="panel-section">'
-      +   '<div class="panel-label">ID</div>'
+      +   '<div class="panel-label">Prövningsgrupp-ID</div>'
       +   '<div class="panel-value">' + escapeHtml(p.provningsgrupp_id) + '</div>'
       + '</div>';
 
@@ -526,6 +633,7 @@
   // ── Lägg till polygoner ───────────────────────────────────────────────────
   // Spårar aktuellt hovrad layer — nollställs vid mouseout och mouseleave
   let activeHoverLayer = null;
+  let lockedLayer = null;
 
   const polygonLayer = L.geoJSON(GEOJSON_DATA, {
 
@@ -542,8 +650,31 @@
 
     // Hover-highlight och sidopanel
     onEachFeature: function(feature, layer) {
-      layer.on({
-        mouseover: function() {
+      const handlers = {
+        // Click-handler: aktiv på alla skärmbredder
+        click: function(e) {
+          L.DomEvent.stopPropagation(e);
+          // Lås upp tidigare låst polygon (om annan)
+          if (lockedLayer && lockedLayer !== this) {
+            polygonLayer.resetStyle(lockedLayer);
+          }
+          lockedLayer = this;
+          activeHoverLayer = null;  // låsning "tar över" från hover
+          // Sätt highlight-styling explicit (samma som hover)
+          this.setStyle({
+            color:       STROKE_COLOR_HOVER,
+            weight:      STROKE_WEIGHT_HOVER,
+            fillOpacity: 1.0,
+          });
+          this.bringToFront();
+          updatePanel(buildPanelHTML(feature.properties));
+          panelEl.scrollTop = 0;
+        },
+      };
+      if (!isMobile) {
+        handlers.mouseover = function() {
+          // Om en polygon är låst: hover gör ingenting
+          if (lockedLayer) return;
           // Återställ föregående highlight explicit — mouseout hinner inte
           // alltid trigga vid snabb hover över tätt liggande polygoner
           if (activeHoverLayer && activeHoverLayer !== this) {
@@ -559,19 +690,18 @@
           // kant ovanpå den aktiva — ser renare ut vid zoomade nivåer
           this.bringToFront();
           updatePanel(buildPanelHTML(feature.properties));
-        },
-        mouseout: function() {
+        };
+        handlers.mouseout = function() {
+          // Om en polygon är låst: mouseout gör ingenting
+          if (lockedLayer) return;
           polygonLayer.resetStyle(this);
           if (activeHoverLayer === this) {
             activeHoverLayer = null;
           }
           showDefaultPanel();
-        },
-        // Touch-enheter: trigga samma panel-uppdatering som mouseover
-        click: function() {
-          updatePanel(buildPanelHTML(feature.properties));
-        },
-      });
+        };
+      }
+      layer.on(handlers);
     },
 
   }).addTo(map);
@@ -579,9 +709,19 @@
   // ── Visa default-vy i panelen vid sidladdning ─────────────────────────────
   showDefaultPanel();
 
+  // ── Klick på kartan utanför polygon — återgå till default ────────────────
+  map.on('click', function() {
+    if (lockedLayer) {
+      polygonLayer.resetStyle(lockedLayer);
+      lockedLayer = null;
+    }
+    showDefaultPanel();
+  });
+
   // ── Mouseleave på kartan — säkerhetsnät mot kvarhängande highlights ────────
   // Triggar om musen lämnar hela kart-containern utan att mouseout hann köras
   document.getElementById('map').addEventListener('mouseleave', function() {
+    if (lockedLayer) return;  // låsning bevaras
     if (activeHoverLayer) {
       polygonLayer.resetStyle(activeHoverLayer);
       activeHoverLayer = null;
